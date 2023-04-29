@@ -14,14 +14,33 @@ export const studentApi = createApi({
         getStudentById: build.query({
             query: (id) => `student/${id}`
         }),
+        searchStudentsByName: build.query({
+            query: (searchText) => `student?filter=${searchText}`,
+        }),
         addStudent: build.mutation({
             query: body => ({
                 url: '/student/',
                 method: "POST",
                 body
             }),
-        })
+        }),
+        updateStudent: build.mutation({
+            query: (data) => {
+                const {id, ...body} = data;
+                return {
+                    url: '/student/' + id,
+                    method: 'PUT',
+                    body,
+                }
+            },
+        }),
+        deleteStudent: build.mutation({
+            query: id => ({
+                url: '/student/' + id,
+                method: "DELETE"
+            }),
+        }),
     })
 })
 
-export const { useGetStudentsQuery, useGetStudentByIdQuery, useAddStudentMutation } = studentApi;
+export const { useGetStudentsQuery, useGetStudentByIdQuery, useSearchStudentsByNameQuery, useAddStudentMutation, useUpdateStudentMutation, useDeleteStudentMutation } = studentApi;
