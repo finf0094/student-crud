@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { useForm } from 'react-hook-form';
+import { useAddStudentMutation } from '../store/students/students.api';
 
 const style = {
     position: 'absolute',
@@ -17,14 +18,25 @@ const style = {
 };
 
 export default function BasicModal() {
+    const [studentAdded, setStudentAdded] = React.useState(false);
+
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const { register, handleSubmit } = useForm();
-    const onSubmit = data => console.log(data);
+    const [ addStudent ] = useAddStudentMutation();
 
-    
+    const { register, handleSubmit } = useForm();
+    const onSubmit = async (data) => {
+        try {
+            await addStudent({name: data.name, university: data.university, gpa: data.gpa});
+            setStudentAdded(true);
+        } catch (error) {
+            console.error('Failed to add student:', error);
+        }
+    };
+
+
 
     return (
         <div>
@@ -36,19 +48,22 @@ export default function BasicModal() {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
+                    {studentAdded ? "student added" : ""}
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div style={{
                             display: 'flex',
                             flexDirection: 'column',
                         }}>
-                            <input {...register("name", { required: true, maxLength: 20 })}  />
-                            <input {...register("university", { pattern: /^[A-Za-z]+$/i })}  />
-                            <input type="number" {...register("gpa", { min: 1, max: 4 })} />
+                            <input {...register("name", { required: true, maxLength: 20 })} placeholder='name' />
+                            <input {...register("university", { pattern: /^[A-Za-z]+$/i })} placeholder='university' />
+                            <input type='number' step="0.01"{...register("gpa", { min: 1, max: 4 })} placeholder='gpa' />
                         </div>
-                        <input type="submit" />
+                        <input type="submit" value="ADD STUDENT" />
                     </form>
                 </Box>
             </Modal>
         </div>
     );
 }
+
+

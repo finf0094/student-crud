@@ -14,18 +14,14 @@ export const studentApi = createApi({
         getStudentById: build.query({
             query: (id) => `student/${id}`
         }),
-        addStudent: build.query({
-            query: (name, university, gpa) => ({
-                url: '/students',
+        addStudent: build.mutation({
+            query: body => ({
+                url: '/student/',
                 method: "POST",
-                body: {
-                    name: name,
-                    university: university,
-                    gpa: gpa
-                }
+                body
             }),
         })
     })
 })
 
-export const { useGetStudentsQuery, useGetStudentByIdQuery } = studentApi;
+export const { useGetStudentsQuery, useGetStudentByIdQuery, useAddStudentMutation } = studentApi;
