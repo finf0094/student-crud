@@ -54,7 +54,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function NavHeader() {
+export default function NavHeader({searchText, setSearchText}) {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -90,6 +90,8 @@ export default function NavHeader() {
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>

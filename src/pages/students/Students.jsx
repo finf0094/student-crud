@@ -4,8 +4,7 @@ import { Loader } from "../../loader/Loader";
 import { useGetStudentsQuery, useSearchStudentsByNameQuery } from "../../store/students/students.api";
 import styles from "./students.module.css";
 
-export const Students = () => {
-  const [searchText, setSearchText] = useState("");
+export const Students = ({searchText, setSearchText}) => {
   const [searchActive, setSearchActive] = useState(false);
   
   const {
@@ -49,11 +48,6 @@ export const Students = () => {
           );
         })}
       </div>
-      <input
-        type="text"
-        value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
-      />
     </div>
   );
 };

@@ -41,9 +41,10 @@ export const Student = () => {
                         height: 400,
                         backgroundColor: 'primary.dark',
                         transition: "0.2s ease",
+                        opacity: [0.9, 0.8, 0.7],
                         '&:hover': {
                             backgroundColor: 'primary.main',
-                            opacity: [0.9, 0.8, 0.7],
+                            cursor: "pointer"
                         },
                         borderRadius: 10,
                         margin: "0 auto",
