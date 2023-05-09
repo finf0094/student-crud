@@ -6,7 +6,7 @@ import styles from "./students.module.css";
 
 export const Students = ({searchText, setSearchText}) => {
   const [searchActive, setSearchActive] = useState(false);
-  
+
   const {
     data: students,
     isLoading: isStudentsLoading,
@@ -33,9 +33,8 @@ export const Students = ({searchText, setSearchText}) => {
 
   return (
     <div className={styles.wrapper}>
-      {isError && "Ошибка. Попробуйте позже."}
       {isLoading && <Loader />}
-      <div className={styles.grid}>
+      {data ? <div className={styles.grid}>
         {data?.map((student) => {
           return (
             <BasicCard
@@ -47,7 +46,7 @@ export const Students = ({searchText, setSearchText}) => {
             />
           );
         })}
-      </div>
+      </div> : isError && "Ошибка. Попробуйте позже."}
     </div>
   );
 };

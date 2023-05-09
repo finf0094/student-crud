@@ -43,4 +43,11 @@ export const studentApi = createApi({
     })
 })
 
-export const { useGetStudentsQuery, useGetStudentByIdQuery, useSearchStudentsByNameQuery, useAddStudentMutation, useUpdateStudentMutation, useDeleteStudentMutation } = studentApi;
+export const { 
+    useGetStudentsQuery,
+    useGetStudentByIdQuery,
+    useSearchStudentsByNameQuery, 
+    useAddStudentMutation, 
+    useUpdateStudentMutation, 
+    useDeleteStudentMutation 
+} = studentApi;

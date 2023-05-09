@@ -36,7 +36,7 @@ export default function BasicModal() {
         }
     };
 
-
+    
 
     return (
         <div>
