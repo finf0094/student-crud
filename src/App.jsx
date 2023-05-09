@@ -10,11 +10,16 @@ function App() {
 
   return (
     <div>
+
+      {/* <Sidebar/> */}
+
       <NavHeader searchText={searchText} setSearchText={setSearchText} />
 
+
+
       <Routes>
-        <Route path="/students" element={<Students searchText={searchText} setSearchText={setSearchText} />}/>
-        <Route path="/student/:id" element={<Student />}/>
+        <Route path="/students" element={<Students searchText={searchText} setSearchText={setSearchText} />} />
+        <Route path="/student/:id" element={<Student />} />
       </Routes>
 
     </div>

@@ -15,6 +15,7 @@ export const subjectsApi = createApi({
                     body,
                 }
             },
+            
         })
     })
 })

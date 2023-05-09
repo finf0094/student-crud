@@ -1,17 +1,21 @@
 import { useState, useEffect } from "react";
 import BasicCard from "../../components/BasicCard";
-import { Loader } from "../../loader/Loader";
+import { Loader } from "../../utils/loader/Loader";
 import { useGetStudentsQuery, useSearchStudentsByNameQuery } from "../../store/students/students.api";
 import styles from "./students.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleStudentAdded } from "../../store/students/students.slice"
 
 export const Students = ({searchText, setSearchText}) => {
   const [searchActive, setSearchActive] = useState(false);
+  const studentAdded = useSelector(state => state.studentsSlice.studentAdded);
+  const dispatch = useDispatch();
 
   const {
     data: students,
     isLoading: isStudentsLoading,
     isError: isStudentsError,
-  } = useGetStudentsQuery();
+  } = useGetStudentsQuery(undefined, { staleTime: 0 });
   
   const {
     data: searchedStudents,
@@ -24,12 +28,16 @@ export const Students = ({searchText, setSearchText}) => {
   const data = searchActive ? searchedStudents : students;
 
   useEffect(() => {
+    if (studentAdded) {
+      dispatch(toggleStudentAdded())
+      console.log("123")
+    }
     if (searchText.length > 0) {
       setSearchActive(true);
     } else {
       setSearchActive(false);
     }
-  }, [searchText]);
+  }, [searchText, studentAdded]);
 
   return (
     <div className={styles.wrapper}>

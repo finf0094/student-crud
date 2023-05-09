@@ -1,7 +1,9 @@
+import { Divider, Input } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-import { useState } from 'react';
+import TextField from '@mui/material/TextField/TextField';
+import { Fragment, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 const style = {
@@ -18,10 +20,10 @@ const style = {
 
 export default function BasicFormModal({
     openButtonText,
-    title,
     successMessage,
     mutationHook,
     inputFields,
+    itemId
 }) {
     const [success, setSuccess] = useState(false);
     const [open, setOpen] = useState(false);
@@ -29,12 +31,13 @@ export default function BasicFormModal({
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
 
     const onSubmit = async (data) => {
         try {
-            await mutationHook(data);
+            const id = +itemId;
+            await mutationHook({ ...data, id });
             setSuccess(true);
         } catch (error) {
             console.error('Failed to add data:', error);
@@ -57,14 +60,24 @@ export default function BasicFormModal({
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
                             {inputFields.map((field) => (
-                                <input
-                                    key={field.name}
-                                    {...register(field.name, field.validationRules)}
-                                    placeholder={field.placeholder}
-                                />
+                                <Fragment key={field.name}>
+                                    <TextField
+                                        id="outlined-basic"
+                                        label={field.placeholder}
+                                        variant="outlined"
+                                        size='normal'
+                                        sx={{ marginBottom: 2 }}
+                                        key={field.name}
+                                        {...register(field.name, field.validationRules)}
+                                    />
+
+                                    {errors[field.name] && <span>This field is not required validation.</span>}
+                                </Fragment>
                             ))}
                         </div>
-                        <input type="submit" value="Submit" />
+                        <Divider />
+
+                        <Input type="submit" value="add" sx={{marginTop: 2}} />
                     </form>
                 </Box>
             </Modal>

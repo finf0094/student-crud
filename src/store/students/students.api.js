@@ -4,15 +4,18 @@ const BASE_URL = 'http://localhost:8080/'
 
 export const studentApi = createApi({
     reducerPath: "api/students",
+    tagTypes: ["students", "student", "subjects"],
     baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
-    // eslint-disable-next-line no-unused-vars
     endpoints: build => ({
         getStudents: build.query({
-            // eslint-disable-next-line no-unused-vars
-            query: (limit = 6) => `student/show?limit=${6}`
+            query: (limit = 6) => `student/show?limit=${6}`,
+            
+            providesTags: ["students", "student"]
         }),
         getStudentById: build.query({
-            query: (id) => `student/${id}`
+            query: (id) => `student/${id}`,
+
+            providesTags: ["subjects", "student"],
         }),
         searchStudentsByName: build.query({
             query: (searchText) => `student?filter=${searchText}`,
@@ -23,6 +26,8 @@ export const studentApi = createApi({
                 method: "POST",
                 body
             }),
+
+            invalidatesTags: ["students"]
         }),
         updateStudent: build.mutation({
             query: (data) => {
@@ -33,13 +38,29 @@ export const studentApi = createApi({
                     body,
                 }
             },
+
+            invalidatesTags: ["student", "students"]
         }),
         deleteStudent: build.mutation({
             query: id => ({
                 url: '/student/' + id,
                 method: "DELETE"
             }),
+
+            invalidatesTags: ["student", "students"]
         }),
+        addSubject: build.mutation({
+            query: (data) => {
+                const {id, ...body} = data;
+                return {
+                    url: `/student/${id}/addSubject`,
+                    method: 'Post',
+                    body,
+                }
+            },
+            
+            invalidatesTags: ["subjects"]
+        })
     })
 })
 
@@ -49,5 +70,6 @@ export const {
     useSearchStudentsByNameQuery, 
     useAddStudentMutation, 
     useUpdateStudentMutation, 
-    useDeleteStudentMutation 
+    useDeleteStudentMutation,
+    useAddSubjectMutation
 } = studentApi;
