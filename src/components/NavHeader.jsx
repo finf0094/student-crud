@@ -23,6 +23,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import BasicFormModal from './BasicFormModal';
+import { useAddStudentMutation } from '../store/students/students.api';
 
 
 const drawerWidth = 240;
@@ -90,6 +92,16 @@ export default function NavHeader({searchText, setSearchText}) {
     setOpen(false);
   };
 
+  const inputFields = [
+    {
+        name: 'name',
+        placeholder: 'name',
+        validationRules: { required: true, pattern: /^[A-Za-z\s]+$/i }
+    }
+];
+
+const [addStudent] = useAddStudentMutation();
+
   return (
     <Box sx={{ flexGrow: 1, paddingBottom: 6 }}>
       <AppBar position="fixed" open={open}>
@@ -117,7 +129,11 @@ export default function NavHeader({searchText, setSearchText}) {
               fontWeight: "700",
             }}>Student List</Link>
           </Typography>
-          <BasicModal />
+          <BasicFormModal 
+          inputFields={inputFields}
+          successMessage='succes'
+          mutationHook={addStudent}
+          openButtonText="ADD STUDENT" />
           <Search>
             <SearchIconWrapper>
               <SearchIcon />

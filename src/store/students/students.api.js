@@ -9,7 +9,7 @@ export const studentApi = createApi({
     endpoints: build => ({
         getStudents: build.query({
             query: (limit = 6) => `student/show?limit=${6}`,
-            
+
             providesTags: ["students", "student"]
         }),
         getStudentById: build.query({
@@ -21,17 +21,20 @@ export const studentApi = createApi({
             query: (searchText) => `student?filter=${searchText}`,
         }),
         addStudent: build.mutation({
-            query: body => ({
-                url: '/student/',
-                method: "POST",
-                body
-            }),
+            query: data => {
+                const { id, ...body } = data
+                return {
+                    url: '/student/',
+                    method: "POST",
+                    body
+                }
+            },
 
             invalidatesTags: ["students"]
         }),
         updateStudent: build.mutation({
             query: (data) => {
-                const {id, ...body} = data;
+                const { id, ...body } = data;
                 return {
                     url: '/student/' + id,
                     method: 'PUT',
@@ -51,25 +54,25 @@ export const studentApi = createApi({
         }),
         addSubject: build.mutation({
             query: (data) => {
-                const {id, ...body} = data;
+                const { id, ...body } = data;
                 return {
                     url: `/student/${id}/addSubject`,
                     method: 'Post',
                     body,
                 }
             },
-            
+
             invalidatesTags: ["subjects"]
         })
     })
 })
 
-export const { 
+export const {
     useGetStudentsQuery,
     useGetStudentByIdQuery,
-    useSearchStudentsByNameQuery, 
-    useAddStudentMutation, 
-    useUpdateStudentMutation, 
+    useSearchStudentsByNameQuery,
+    useAddStudentMutation,
+    useUpdateStudentMutation,
     useDeleteStudentMutation,
     useAddSubjectMutation
 } = studentApi;

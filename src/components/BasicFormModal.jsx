@@ -5,6 +5,8 @@ import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField/TextField';
 import { Fragment, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 const style = {
     position: 'absolute',
@@ -13,9 +15,9 @@ const style = {
     transform: 'translate(-50%, -50%)',
     width: 400,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
     boxShadow: 24,
     p: 4,
+    borderRadius: 4
 };
 
 export default function BasicFormModal({
@@ -41,6 +43,10 @@ export default function BasicFormModal({
             setSuccess(true);
         } catch (error) {
             console.error('Failed to add data:', error);
+        } finally {
+            setTimeout(() => {
+                setSuccess(false)
+            }, 2000)
         }
     };
 
@@ -55,8 +61,14 @@ export default function BasicFormModal({
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
+
                 <Box sx={style}>
                     {success ? successMessage : ''}
+                    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <Button onClick={handleClose} sx={{ marginBottom: 2 }}>
+                            <CloseIcon color='error' />
+                        </Button>
+                    </div>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
                             {inputFields.map((field) => (
@@ -77,7 +89,7 @@ export default function BasicFormModal({
                         </div>
                         <Divider />
 
-                        <Input type="submit" value="add" sx={{marginTop: 2}} />
+                        <Input type="submit" value="add" sx={{ marginTop: 2 }} />
                     </form>
                 </Box>
             </Modal>

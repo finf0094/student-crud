@@ -84,7 +84,7 @@ export default function BasicModal() {
                             <Divider />
 
                             <TextField
-                                {...register("university", { pattern: /^[A-Za-z]+$/i })}
+                                {...register("university", { required: true, pattern: /^[A-Za-z]+$/i })}
                                 id="outlined-basic"
                                 label="University"
                                 variant="outlined"

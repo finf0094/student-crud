@@ -27,12 +27,12 @@ export const Student = () => {
         {
             name: 'name',
             placeholder: 'name',
-            validationRules: { pattern: /^[A-Za-z\s]+$/i }
+            validationRules: { required: true, pattern: /^[A-Za-z\s]+$/i }
         },
         {
             name: 'score',
             placeholder: 'score',
-            validationRules: { min: 1, max: 100 },
+            validationRules: { required: true, min: 1, max: 100 },
         },
     ];
     const [addSubject] = useAddSubjectMutation();
